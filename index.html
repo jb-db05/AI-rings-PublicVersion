@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Money Rings Focus Star</title>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<script>/* Embedded in the blog post: the post card already shows the title and intro */if(window.self!==window.top)document.documentElement.classList.add("embedded")</script>
+<style>.embedded header{display:none}.embedded body{padding:0}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;800&display=swap">
+<style>
+/* Layout: white page, Syz logo + bold title on top, flow chips, concentric map left / reading panel right */
+:root{
+  color-scheme:light;
+  --bg:#ffffff; --surface:#ffffff; --ink:#202945; --muted:#4b5f80; --line:#e8ecf3; --ring:#c9d3e3;
+  --orange:#ff6c0e; --amber:#ffa400; --gold:#ffc545; --blue:#4b5f80; --space:#202945;
+  --mint:#3baf90; --teal:#9dd9d2; --sky:#79d6ff; --peach:#e6a4ad; --mulb:#ac5d85;
+  --eq:var(--mint); --cp:var(--orange); --fin:var(--mulb); --war:var(--blue); --hi:var(--space);
+  --n1:var(--space); --n2:var(--gold); --n3:var(--sky); --n4:var(--teal); --n5:var(--peach);
+  --f:"Nunito Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-weight:400;font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+b,strong,h1,h2,.chip,.who,.amt,.pill,.back,.ringlbl,.node text{font-weight:800}
+.wrap{max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+header{display:flex;flex-direction:column;align-items:flex-start;gap:14px;text-align:left}
+header h1,header p{width:100%;max-width:880px}
+header img{height:44px;width:auto;align-self:flex-start}
+header h1{font-weight:800;font-size:clamp(30px,5vw,52px);line-height:1.05;margin:0;text-wrap:balance;letter-spacing:-.015em;color:var(--space)}
+header h1 span{background:linear-gradient(90deg,var(--orange),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
+header p{margin:0;color:var(--ink);max-width:880px;font-size:clamp(16px,1.6vw,18px);line-height:1.55;text-align:left}
+header p.hint{color:var(--muted);font-size:14px;margin-top:-4px}
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.filters .lbl{font-size:13px;font-weight:800;letter-spacing:.1em;color:var(--muted);margin-right:2px}
+.chip{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--c);background:color-mix(in srgb,var(--c) 16%,#fff);color:var(--ink);border-radius:0;padding:7px 16px;font:800 14px var(--f);cursor:pointer;transition:transform .15s,background .15s}
+.chip i{width:12px;height:12px;border-radius:50%;background:var(--c);display:inline-block}
+.chip:hover{transform:translateY(-2px)}
+.chip[aria-pressed="false"]{background:#fff;border-color:var(--line);color:var(--muted)}
+.chip[aria-pressed="false"] i{background:var(--line)}
+.chip:focus-visible,.node:focus-visible,.loop:focus-visible,.back:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.legend-st{display:flex;flex-basis:100%;gap:6px 16px;font-size:13px;color:var(--muted);align-items:center;flex-wrap:wrap;justify-content:flex-start;text-align:left}
+.legend-st svg{vertical-align:middle}
+.discs{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:13px;color:var(--muted);margin-top:-10px}
+.discs .lbl{font-weight:800;margin-right:2px}
+.discs span{display:inline-flex;align-items:center;gap:6px}
+.discs i{width:12px;height:12px;border-radius:50%;display:inline-block}
+.legset{display:inline-flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.legset[hidden]{display:none}
+.ramp{gap:3px!important}.ramp i{width:22px;height:12px;border-radius:0}
+.mode{display:inline-flex;gap:0!important}
+.mode button{border:2px solid var(--space);background:#fff;color:var(--ink);font:800 13px var(--f);padding:5px 12px;cursor:pointer;border-radius:0}
+.mode button+button{border-left:0}
+.mode button[aria-pressed="true"]{background:var(--space);color:#fff}
+.mode button:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.press{border:2px solid var(--line);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.press p{margin:0;font-size:14px}
+.pchip{align-self:flex-start;font-weight:800;font-size:13px;padding:3px 10px;background:color-mix(in srgb,var(--pc) 35%,#fff);border-left:6px solid var(--pc)}
+.press a{font-size:13px;color:var(--muted)}
+.main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:900px){.main{grid-template-columns:1fr}}
+@media (max-width:600px){header p{font-size:16px}header img{height:36px}}
+.mapbox{background:var(--surface);border:2px solid var(--line);border-radius:0;padding:10px;min-width:0}
+svg#map{width:100%;height:auto;display:block}
+.ringlbl{paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round;font-family:var(--f);font-size:14px;fill:var(--muted);letter-spacing:.01em}
+.rlbl{cursor:pointer;transition:font-size .2s,fill .2s,stroke-width .2s}
+.rlbl.on{font-size:24px;fill:var(--rd);stroke-width:7px}
+.rline{fill:none;stroke:#b4c0d4;stroke-width:2.2;stroke-dasharray:2 8;stroke-linecap:round;transition:stroke .2s,stroke-width .2s}
+.rline.on{stroke:var(--rd);stroke-width:3;stroke-dasharray:none}
+.rhalo{fill:none;stroke:var(--rc);stroke-width:0;opacity:0;transition:opacity .25s,stroke-width .25s;pointer-events:none}
+.rhalo.on{opacity:.16;stroke-width:50}
+.rhit{fill:none;stroke:transparent;stroke-width:40;pointer-events:stroke;cursor:pointer}
+.hit{fill:none;stroke:transparent;stroke-width:20;pointer-events:stroke;cursor:pointer}
+.edge.hov{opacity:1;stroke-width:calc(var(--w,2px) + 1.4px)}
+.elbl.show{display:block}
+.elbl{display:none;font-family:var(--f);font-weight:800;font-size:17px;text-anchor:middle;paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round;pointer-events:none}
+.edge{fill:none;stroke-width:var(--w,2px);opacity:.6;transition:opacity .15s;stroke-linecap:round}
+.edge.dash{stroke-dasharray:6 5}
+.edge.dim{opacity:.07}
+.edge.on{opacity:1;stroke-width:calc(var(--w,2px) + 1.2px)}
+.node{cursor:pointer}
+.node circle{transition:transform .18s,fill .45s;stroke:#fff;stroke-width:3;transform-box:fill-box;transform-origin:center;transition:transform .18s}
+.node:hover circle{transform:scale(1.14)}
+
+.node text{font-family:var(--f);font-size:15px;fill:var(--ink);paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+.node.dim{opacity:.4}
+.node.sel circle{stroke:var(--orange);stroke-width:4}
+.panel{background:var(--surface);border:2px solid var(--line);border-radius:0;padding:22px 22px 24px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.panel h2{font-weight:800;font-size:26px;line-height:1.15;margin:0;color:var(--space)}
+.panel .sub{color:var(--muted);font-size:14px;margin:-6px 0 0}
+.deal{border-top:2px dotted var(--line);padding-top:12px;display:grid;grid-template-columns:14px 1fr;gap:10px}
+.deal .dot{width:12px;height:12px;border-radius:50%;margin-top:6px}
+.deal .hd{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline}
+.deal .who{font-size:15px}
+.deal .amt{font-size:15px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.deal .meta{font-size:13px;color:var(--muted)}
+.deal p{margin:2px 0 0;font-size:14.5px}
+.deal a{font-size:13px;color:var(--muted)}
+.pill{font-size:11px;letter-spacing:.06em;background:color-mix(in srgb,var(--mint) 20%,#fff);border-radius:0;padding:2px 10px;color:var(--ink)}
+.pill.loi{background:#fff;border:2px dashed var(--gold)}
+.loop{--t:var(--orange);border:2px solid var(--t);border-radius:0;padding:14px 16px;cursor:pointer;background:#fff;text-align:left;color:var(--ink);font:inherit;display:flex;flex-direction:column;gap:4px;transition:transform .15s,box-shadow .15s}
+.loop.t0{--t:var(--orange)}.loop.t1{--t:var(--mulb)}.loop.t2{--t:var(--sky)}.loop.t3{--t:var(--gold)}.loop.t4{--t:var(--mint)}.loop.t5{--t:var(--peach)}
+.loop:hover{transform:translateY(-3px)}
+.loop.on{box-shadow:inset 0 0 0 2px var(--t)}
+.loop strong{font-weight:800;font-size:17px}
+.loop .path{font-size:13.5px;color:var(--muted)}
+.takeaway{margin:2px 0 0;font-size:14.5px;background:color-mix(in srgb,var(--gold) 22%,#fff);border-radius:0;padding:14px 16px}
+.back{align-self:flex-start;border:0;background:color-mix(in srgb,var(--sky) 25%,#fff);border-radius:0;color:var(--ink);font:800 13px var(--f);cursor:pointer;padding:6px 14px}
+.btn{border:2px solid var(--space);background:#fff;color:var(--ink);font:800 14px var(--f);padding:8px 16px;border-radius:0;cursor:pointer;transition:transform .15s}
+.btn:hover:not(:disabled){transform:translateY(-2px)}
+.btn:disabled{opacity:.35;cursor:default}
+.btn.pri{border-color:var(--orange);background:color-mix(in srgb,var(--orange) 14%,#fff)}
+.btn:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+#tour{align-self:flex-start}
+.nav{display:flex;gap:10px;flex-wrap:wrap}
+.pathline{margin:0;color:var(--muted);font-size:14px}
+.story{margin:0;font-size:16px;line-height:1.6}
+.tot{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tot div{border:2px solid var(--line);padding:10px 14px;display:flex;flex-direction:column;min-width:0}
+.tot b{font-size:26px;line-height:1.15;font-variant-numeric:tabular-nums}
+.tot span{font-size:13px;color:var(--muted)}
+.note{font-size:13px;color:var(--muted);max-width:90ch;margin:0}
+@media (prefers-reduced-motion:reduce){.edge,.chip,.loop,.node circle{transition:none}.chip:hover,.loop:hover,.node:hover circle{transform:none}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header>
+  <img src="data:image/png;base64,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" alt="Syz" width="49" height="44">
+  <h1><span>AI Money Rings:</span> who funds whom, and where to watch</h1>
+  <p>AI demand is real, and it is being monetised: the frontier labs are growing faster than any software company in history, and demand for computing capacity still exceeds supply. Staying invested in this cycle means understanding how it is financed. The build-out is increasingly funded by the companies that sell to it: Nvidia invests in its own customers, Broadcom lends to the lab that leases its chips, and roughly half of the cloud providers’ backlog is owed by just two AI labs. Super-cycles rarely end because valuations look stretched; they end when financing dries up. This map shows where that risk sits, and which companies stand on firmer ground.</p>
+  <p class="hint"><b>How to use:</b> Every arrow follows the money. Tap a company to see its deals and funding stress, or pick a loop to trace it.</p>
+</header>
+
+<div class="filters" role="group" aria-label="Flow types">
+  <span class="lbl">Flows</span>
+  <button class="chip" id="f-eq" data-t="eq" style="--c:var(--eq)" aria-pressed="true"><i></i>Equity</button>
+  <button class="chip" id="f-cp" data-t="cp" style="--c:var(--cp)" aria-pressed="true"><i></i>Compute &amp; chips</button>
+  <button class="chip" id="f-fin" data-t="fin" style="--c:var(--fin)" aria-pressed="true"><i></i>Debt &amp; guarantees</button>
+  <button class="chip" id="f-war" data-t="war" style="--c:var(--war)" aria-pressed="true"><i></i>Warrants</button>
+  <button class="btn" id="reset" type="button">Reset</button>
+  <span class="legend-st">
+    <span><b>Arrow direction:</b> money goes from the payer, investor or lender to the recipient</span>
+    <span><svg width="26" height="6"><line x1="0" y1="3" x2="26" y2="3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg> Signed / completed</span>
+    <span>Thicker arrow = larger amount</span>
+    <span><svg width="26" height="6"><line x1="0" y1="3" x2="26" y2="3" stroke="currentColor" stroke-width="2.5" stroke-dasharray="5 4"/></svg> LOI, press report, in talks</span>
+  </span>
+</div>
+
+<div class="discs">
+  <span class="lbl">Colour discs by</span>
+  <span class="mode" role="group" aria-label="Colour discs by"><button type="button" data-m="cat" aria-pressed="true">Category</button><button type="button" data-m="p" aria-pressed="false">Funding stress</button></span>
+  <span id="leg-cat" class="legset"><span><i style="background:var(--n1)"></i>Chips</span><span><i style="background:var(--n2)"></i>Labs</span><span><i style="background:var(--n3)"></i>Hyperscalers</span><span><i style="background:var(--n4)"></i>Neoclouds</span><span><i style="background:var(--n5)"></i>Financiers &amp; funding vehicles</span></span>
+  <span id="leg-p" class="legset" hidden><span>Lower</span><span class="ramp"><i style="background:#3BAF90"></i><i style="background:#9DD7C8"></i><i style="background:#FFD374"></i><i style="background:#FFA400"></i><i style="background:#FF6C0E"></i></span><span>Higher funding stress</span></span>
+</div>
+
+<div class="main">
+  <div class="mapbox"><svg id="map" viewBox="-30 0 1100 1040" role="img" aria-label="Concentric map of financial relationships in the AI economy"></svg></div>
+  <aside class="panel" id="panel" aria-live="polite"></aside>
+</div>
+
+<p class="note">Data as of 16 October 2026. Only major transactions between these actors are shown; the map is not an exhaustive record of deals. Funding stress is an indicative assessment of how exposed each company is to capital becoming scarcer or more expensive, based on CDS spreads, credit ratings and recent financing costs. Disc sizes are indicative (market cap or latest valuation, rough ranking). Amounts in US dollars as published; several are caps ("up to") or letters of intent. Rings, from the inside out: chips, AI labs, hyperscalers, neoclouds, financiers and funding vehicles. Not investment advice.</p>
+</div>
+
+<script>
+const S={
+ msft27:"https://www.scmp.com/tech/big-tech/article/3330714/microsoft-holds-27-openai-revamped-partnership",
+ oaib:"https://openai.com/blog/scaling-ai-for-everyone",
+ amzap:"https://finance.yahoo.com/sectors/technology/articles/ai-startup-anthropic-commits-100-162944589.html",
+ gcyb:"https://cybernews.com/ai-news/google-to-invest-up-to-40b-in-anthropic-as-ai-rivalry-accelerates/",
+ amd8k:"https://www.sec.gov/Archives/edgar/data/2488/000000248826000045/pressreleasedatedfebruary2.htm",
+ gspx:"https://www.datacenterdynamics.com/en/news/google-to-pay-920-million-to-spacex-monthly-for-ai-capacity/",
+ pym:"https://www.pymnts.com/news/artificial-intelligence/2026/anthropic-prospectus-shows-what-2-trillion-dollar-ai-company-costs-run/",
+ dck:"https://www.datacenterknowledge.com/data-center-construction/nvidia-backs-openai-s-ohio-data-center-buildout-with-105b-guarantee",
+ fort:"https://fortune.com/2026/08/18/openai-data-center-deal-with-nvidia-comes-in-145-billion-lower-than-reportedsignaling-concerns-of-artificial-demand-for-chips/",
+ yq:"https://finance.yahoo.com/technology/ai/articles/anthropic-11-6-billion-quarter-194412542.html",
+ antn:"https://www.anthropic.com/news/microsoft-nvidia-anthropic-announce-strategic-partnerships",
+ pen:"https://penchan.co/en/market/ai/industry/circular-financing/",
+ aice:"https://ai-circular-economy.com/",
+ cap:"https://longportapp.cn/news/281672601",
+ hl:"https://www.hl.co.uk/shares/stock-market-news/company--news/openai-raises-$110bn-from-softbank,-nvidia,-amazon",
+ dcd:"https://www.datacenterdynamics.com/en/news/meta-signs-21bn-ai-infrastructure-contract-with-coreweave/",
+ cpx:"https://computeprices.com/deals/meta-coreweave-2026-04",
+ tnw:"https://thenextweb.com/news/meta-coreweave-21-billion-ai-cloud-deal",
+ cie:"https://www.ciodive.com/news/meta-coreweave-strike-deal-expansion-compute-capacity/817109/",
+ reu:"https://www.thestar.com.my/tech/tech-news/2026/10/01/exclusive-broadcom-to-lend-anthropic-up-to-42-billion-to-lease-its-chips-filing-says",
+ roic:"https://www.roic.ai/news/broadcom-to-lend-up-to-42-billion-to-anthropic-for-infrastructure-lease-agreements-according-to-ipo-prospectus-10-01-2026",
+ spx:"https://virginiabusiness.com/spacex-seeks-40-billion-financing-nvidia-ai-chips/",
+ eco:"https://ecosistemastartup.com/?p=115386",
+ vny:"https://lavocedinewyork.com/news/2026/10/07/spacex-cerca-40-miliardi-per-comprare-chip-nvidia-la-nuova-scommessa-di-musk-e-sullia/",
+ sil:"https://www.silicon.co.uk/cloud/ai/oracle-stargate-chips-615462",
+ tom:"https://www.tomshardware.com/tech-industry/oracle-and-openai-scrap-planned-600mw-abilene-expansion",
+ gfm:"https://gfmag.com/technology/the-circle-game/",
+ bin:"https://builtin.com/articles/ai-circular-financing",
+ neb:"https://www.tradingview.com/news/gurufocus:fbef75e52094b:0-microsoft-strikes-17b-deal-with-nebius-to-power-ai-ambitions",
+ intr:"https://introl.com/blog/microsoft-60-billion-neocloud-spending-2025",
+ drg:"https://deepresearchglobal.substack.com/p/openai-fundamental-analysis-report",
+ noah:"https://www.noahpinion.blog/p/should-we-worry-about-ais-circular",
+ neu:"https://www.theneuron.ai/explainer-articles/nvidia-just-bet-100-billion-on-openais-future",
+ aib:"https://aibusiness.com/generative-ai/meta-coreweave-21b-deal-expand-ai-partnership",
+ lds:"https://letsdatascience.com/blog/broadcom-will-lend-anthropic-42-billion-to-lease-broadcoms-own-chips"
+};
+// ring, angle (deg, 0 = right, clockwise), disc radius
+const N={
+ nvda:{n:"Nvidia",r:1,a:-90,s:34,d:"Dominant GPU supplier; shareholder in its customers (OpenAI, Anthropic, xAI, CoreWeave, Nebius, Nscale, IREN, Crusoe, Intel) and partner in a $500B compute-financing platform."},
+ oai:{n:"OpenAI",r:2,a:-50,s:27,d:"Valued at $852B (Mar 2026); new raise reportedly targeting ~$1.4T. Run-rate ~$50B."},
+ ant:{n:"Anthropic",r:2,a:130,s:28,d:"Last private valuation $965B (May 2026); IPO targeting >$2T. $518B of compute commitments vs ~$16.3B H1 2026 revenue."},
+ meta:{n:"Meta",r:2,a:40,s:26,d:"Multi-source buyer: CoreWeave, Nebius, Oracle, Google Cloud, AMD."},
+ spx:{n:"SpaceX / xAI",r:2,a:-140,s:24,d:"xAI merged into SpaceX ahead of its June 2026 IPO. Colossus 1 & 2 (Memphis), ~780k Nvidia chips at end-Sept."},
+ msft:{n:"Microsoft",r:3,a:-95,s:27,d:"OpenAI's largest shareholder (~27%). Major tenant of the neoclouds."},
+ orcl:{n:"Oracle",r:3,a:-22,s:20,d:"Builds Stargate for OpenAI. S&P cut it to BBB- in Jul 2026; ~$130B of debt and negative free cash flow."},
+ amd:{n:"AMD",r:1,a:0,s:18,d:"Pays customers in warrants: OpenAI and Meta, ~160M shares each."},
+ amzn:{n:"Amazon",r:3,a:92,s:26,d:"Investor in both OpenAI AND Anthropic; AWS / Trainium."},
+ goog:{n:"Alphabet",r:3,a:152,s:26,d:"Anthropic investor and TPU supplier. Backstops on third-party payments rose from $17B to $44B in six months."},
+ avgo:{n:"Broadcom",r:1,a:180,s:22,d:"Designs the TPUs, leases capacity to Anthropic and lends to it. Guides ~$115B of AI semis revenue in FY27."},
+ sftb:{n:"SoftBank",r:5,a:-68,s:17,d:"~13% of OpenAI ($64.6B) once the Oct 2026 tranche closes; funded through bonds ($11.1B in Sept 2026)."},
+ sgt:{n:"Stargate JV",r:5,a:-44,s:13,d:"JV of OpenAI / SoftBank / Oracle / MGX."},
+ mgx:{n:"MGX",r:5,a:-22,s:11,d:"Abu Dhabi sovereign investment fund."},
+ crwv:{n:"CoreWeave",r:4,a:34,s:16,d:"100% Nvidia neocloud, funded mostly with debt."},
+ nbis:{n:"Nebius",r:4,a:62,s:14,d:"Dutch neocloud; clients include Microsoft and Meta."},
+ intc:{n:"Intel",r:1,a:90,s:14,d:"Chipmaker rebuilding its foundry business; the US government (~10%), SoftBank and Nvidia became shareholders in 2025."},
+ bx:{n:"Blackstone",r:5,a:168,s:13,d:"Private credit in the Broadcom → Anthropic chain."},
+ apo:{n:"Apollo",r:5,a:-160,s:13,d:"Private credit: SpaceX/xAI chips, the AI XPV platform for Anthropic and Nvidia's $500B financing platform."},
+ nscl:{n:"Nscale",r:4,a:-124,s:12,d:"UK neocloud; filed for a NYSE listing in Sept 2026 after raising $3.36B of convertible notes."},
+ iren:{n:"IREN",r:4,a:-104,s:11,d:"Neocloud (ex-bitcoin miner), Australia."},
+ crso:{n:"Crusoe",r:4,a:-5,s:12,d:"AI data-centre developer and neocloud; builder of the Abilene Stargate site leased to Oracle. Raised $3B at a $30B valuation (Sept 2026)."},
+ flst:{n:"Fluidstack",r:4,a:150,s:12,d:"Neocloud that owns no chips; builds Anthropic's $50B US data centres. Raised $1.5B at $18B (Sept 2026); up to $10B of GPU-backed debt via Macquarie."},
+ bowl:{n:"Blue Owl",r:5,a:15,s:13,d:"Private-credit firm: owns 80% of Meta's Hyperion JV and co-financed Abilene; walked away from Oracle's $10B Michigan site in Dec 2025."}
+};
+const D=[
+ // equity
+ {f:"msft",t:"oai",ty:"eq",amt:"~$13B invested",x:"~27% as-converted stake after the Oct 2025 recapitalisation (valued ~$135B then); somewhat diluted by the 2026 round.",dt:"2019–2025",st:"done",src:S.msft27},
+ {f:"sftb",t:"oai",ty:"eq",amt:"$64.6B",x:"~13% once the third $10B tranche (Oct 2026) closes, per SoftBank; includes $30B committed in the Feb 2026 round.",dt:"2025–2026",st:"done",src:S.cap},
+ {f:"amzn",t:"oai",ty:"eq",amt:"$50B",x:"Largest cheque of the Feb 2026 round ($730B pre-money), with a multi-year strategic partnership.",dt:"Feb 2026",st:"done",src:S.oaib},
+ {f:"nvda",t:"oai",ty:"eq",amt:"$30B",x:"Replaces the Sept 2025 LOI (\"up to $100B / 10 GW\"), which was never finalised.",dt:"Feb 2026",st:"done",src:S.oaib},
+ {f:"amzn",t:"ant",ty:"eq",amt:"$5B + up to $20B",x:"$5B immediately (≈$13B cumulative with earlier $8B), up to $20B more later.",dt:"Apr 2026",st:"signed",src:S.amzap},
+ {f:"goog",t:"ant",ty:"eq",amt:"up to $40B",x:"$10B cash at a $350B valuation, up to $30B more tied to performance targets (Bloomberg).",dt:"Apr 2026",st:"signed",src:S.gcyb},
+ {f:"nvda",t:"ant",ty:"eq",amt:"up to $10B",x:"Part of the three-way Microsoft–Nvidia–Anthropic deal.",dt:"Nov 2025",st:"signed",src:S.antn},
+ {f:"msft",t:"ant",ty:"eq",amt:"up to $5B",x:"In return: $30B of Azure compute, up to 1 GW.",dt:"Nov 2025",st:"signed",src:S.antn},
+ {f:"nvda",t:"crwv",ty:"eq",amt:"$2B",x:"Additional investment in an all-Nvidia customer.",dt:"Jan 2026",st:"done",src:S.pen},
+ {f:"nvda",t:"nbis",ty:"eq",amt:"$2B",x:"Strategic stake; Nebius deploys Vera Rubin for Meta.",dt:"Mar 2026",st:"done",src:S.tnw},
+ {f:"nvda",t:"spx",ty:"eq",amt:"up to $2B",x:"xAI round tied to Nvidia chip purchases; Nvidia also sits behind the $5.4B Valor GPU-leasing vehicle for xAI.",dt:"2025",st:"signed",src:S.noah},
+ {f:"nvda",t:"nscl",ty:"eq",amt:"$1B",x:"Second tranche of Nscale's $3.36B pre-IPO convertible notes, due mid-Nov 2026 (S-1 filed Sept 2026).",dt:"Sept 2026",st:"signed",src:"https://www.vktr.com/ai-news/nscale-raises-336b-preipo-round-ahead-of-nyse-listing/"},
+ {f:"nvda",t:"sftb",ty:"eq",amt:"$1.5B in SB Energy",x:"Stake in SoftBank's energy arm, builder and owner of OpenAI's Ohio campus. Separate from the guarantee.",dt:"Aug 2026",st:"signed",src:S.dck},
+ {f:"nvda",t:"intc",ty:"eq",amt:"$5B",x:"Equity stake in Intel.",dt:"Sept 2025",st:"done",src:S.neu},
+ {f:"crwv",t:"oai",ty:"eq",amt:"$350M of stock",x:"OpenAI can sell these shares to pay… CoreWeave.",dt:"2025",st:"done",src:S.bin},
+ {f:"oai",t:"sgt",ty:"eq",amt:"$18B",x:"Equity commitment; majority owner alongside SoftBank.",dt:"2025",st:"signed",src:S.sil},
+ {f:"sftb",t:"sgt",ty:"eq",amt:"$18B",x:"Equity commitment.",dt:"2025",st:"signed",src:S.sil},
+ {f:"orcl",t:"sgt",ty:"eq",amt:"$7B",x:"Oracle is both shareholder and builder.",dt:"2025",st:"signed",src:S.sil},
+ {f:"mgx",t:"sgt",ty:"eq",amt:"$7B",x:"Equity commitment.",dt:"2025",st:"signed",src:S.sil},
+ // warrants (supplier -> customer, in shares)
+ {f:"amd",t:"oai",ty:"war",amt:"≤160M shares (~10%)",x:"Nominal-price warrants, unlocked by deployment milestones.",dt:"Oct 2025",st:"signed",src:S.pen},
+ {f:"amd",t:"meta",ty:"war",amt:"≤160M shares (~10%)",x:"Performance warrant: tranches vest with GPU shipments (1 GW → 6 GW) and AMD share-price thresholds (AMD 8-K).",dt:"Feb 2026",st:"signed",src:S.amd8k},
+ // compute & chips (buyer -> seller)
+ {f:"oai",t:"nvda",ty:"cp",amt:"5 GW",x:"3 GW dedicated inference + 2 GW training on Vera Rubin (OpenAI announcement).",dt:"Feb 2026",st:"signed",src:S.oaib},
+ {f:"oai",t:"amd",ty:"cp",amt:"6 GW",x:"Instinct GPUs; triggers the warrants.",dt:"Oct 2025",st:"signed",src:S.pen},
+ {f:"oai",t:"avgo",ty:"cp",amt:"10 GW (~$10B initial orders)",x:"Co-developed custom accelerators; first deployments targeted for end-2026.",dt:"Oct 2025",st:"signed",src:S.pen},
+ {f:"oai",t:"orcl",ty:"cp",amt:"~$300B / 4.5 GW",x:"Cloud over ~5 years (Stargate). Figure from press reports, not officially confirmed.",dt:"Sept 2025",st:"loi",src:S.pen},
+ {f:"oai",t:"msft",ty:"cp",amt:"$250B",x:"Incremental Azure commitment under the Oct 2025 recapitalisation.",dt:"Oct 2025",st:"signed",src:S.msft27},
+ {f:"oai",t:"crwv",ty:"cp",amt:"$22.4B",x:"Cumulative capacity contracts.",dt:"2025",st:"signed",src:S.aib},
+ {f:"oai",t:"amzn",ty:"cp",amt:"$138B",x:"$38B (Nov 2025) plus $100B over eight years under the Feb 2026 expansion; includes ~2 GW of Trainium.",dt:"Nov 2025 / Feb 2026",st:"signed",src:"https://www.geekwire.com/2026/amazon-invests-50b-in-openai-deepens-aws-partnership-with-expanded-100b-cloud-deal/"},
+ {f:"ant",t:"msft",ty:"cp",amt:"$31.4B",x:"Azure commitment per IPO prospectus (headline at signing: $30B, up to 1 GW).",dt:"Nov 2025",st:"signed",src:S.pym},
+ {f:"ant",t:"amzn",ty:"cp",amt:"$110B / up to 5 GW",x:"Commitment per IPO prospectus (\">$100B over 10 years\" at signing); up to 5 GW of Trainium. AWS remains primary partner.",dt:"Apr 2026",st:"signed",src:S.pym},
+ {f:"ant",t:"goog",ty:"cp",amt:"$111.1B / 5 GW",x:"Google Cloud commitment per IPO prospectus; ≤1M TPUs (>1 GW) in 2026, 5 GW of next-gen TPU from 2027.",dt:"Oct 2025 / Apr 2026",st:"signed",src:S.pym},
+ {f:"ant",t:"avgo",ty:"cp",amt:"$125.2B / ~3.5 GW",x:"5-year TPU lease from 2027; total equipment leases with Broadcom $161.2B, largely non-cancelable (prospectus).",dt:"Apr 2026",st:"signed",src:S.reu},
+ {f:"ant",t:"spx",ty:"cp",amt:"up to $84.5B",x:"~$1.25B/month for 3 years on Colossus (SpaceX filing). The only Anthropic commitment cancelable on 90 days' notice (prospectus).",dt:"May 2026",st:"signed",src:S.pym},
+ {f:"goog",t:"spx",ty:"cp",amt:"~$30B ($920M/mo)",x:"~110k Nvidia GPUs, Oct 2026–Jun 2029, per SpaceX SEC filing; cancelable on 90 days' notice after 2026.",dt:"Jun 2026",st:"signed",src:S.gspx},
+ {f:"spx",t:"nvda",ty:"cp",amt:"~$40B",x:"Chip order to double Colossus 2 (>1.2M chips by end-2026), debt-financed.",dt:"Oct 2026",st:"loi",src:S.spx},
+ {f:"orcl",t:"nvda",ty:"cp",amt:"~$40B",x:"~400k GB200 for Abilene, capacity re-leased to OpenAI.",dt:"2025",st:"done",src:S.sil},
+ {f:"orcl",t:"crso",ty:"cp",amt:"15-yr lease / 1.2 GW",x:"Abilene, the first Stargate site; 600 MW expansion scrapped.",dt:"2025",st:"signed",src:S.tom},
+ {f:"meta",t:"amd",ty:"cp",amt:"6 GW (>$100B reported)",x:"Multi-generation Instinct deal; first GW ships 2H 2026 (AMD 8-K).",dt:"Feb 2026",st:"signed",src:S.amd8k},
+ {f:"meta",t:"crwv",ty:"cp",amt:"~$35B",x:"$14.2B (Sept 2025) + $21B through 2032, including Vera Rubin.",dt:"2025–2026",st:"signed",src:S.dcd},
+ {f:"meta",t:"nbis",ty:"cp",amt:"$3B + up to $27B",x:"$12B dedicated from 2027 + up to $15B optional.",dt:"Nov 2025 / Mar 2026",st:"signed",src:S.cie},
+ {f:"meta",t:"orcl",ty:"cp",amt:"~$20B",x:"Amount reported by the press.",dt:"Oct 2025",st:"loi",src:S.cpx},
+ {f:"meta",t:"goog",ty:"cp",amt:">$10B",x:"Google Cloud.",dt:"Aug 2025",st:"signed",src:S.cpx},
+ {f:"msft",t:"nbis",ty:"cp",amt:"$17.4–19.4B",x:">100k GB300 through 2031.",dt:"Sept 2025",st:"signed",src:S.neb},
+ {f:"msft",t:"nscl",ty:"cp",amt:"~$23B",x:"~200k GB300 across 4 countries.",dt:"Oct 2025",st:"signed",src:S.intr},
+ {f:"msft",t:"iren",ty:"cp",amt:"$9.7B",x:"GB300 in Australia through 2031.",dt:"Nov 2025",st:"signed",src:S.intr},
+ {f:"crwv",t:"nvda",ty:"cp",amt:"100% Nvidia fleet",x:"OpenAI/Meta contracts turn into Nvidia GPU purchases.",dt:"ongoing",st:"done",src:S.tnw},
+ // debt & guarantees (lender/guarantor -> beneficiary)
+ {f:"nvda",t:"oai",ty:"fin",amt:"up to $105B",x:"Residual-value guarantee on the 20-yr lease of OpenAI's Ohio campus built by SB Energy: 4.25 GW initial, option on 3.75 GW more. OpenAI reimburses Nvidia for any payout. Signed cap is $145B below the ~$250B reported by the WSJ in July.",dt:"Aug 2026",st:"signed",src:S.dck},
+ {f:"avgo",t:"ant",ty:"fin",amt:"up to $42B",x:"Notes convertible into Anthropic shares, ~1/3 of the TPU lease. Anthropic flags \"potential conflicts of interest\".",dt:"Oct 2026",st:"signed",src:S.reu},
+ {f:"apo",t:"ant",ty:"fin",amt:"$35B platform",x:"AI XPV with Broadcom and Blackstone: >1 GW of Anthropic compute from mid-2026.",dt:"Jun 2026",st:"signed",src:S.roic},
+ {f:"bx",t:"ant",ty:"fin",amt:"$18B junior tranche",x:"Blackstone leads the junior tranche ($9B of its own) of the $60B package assembled by Broadcom.",dt:"Oct 2026",st:"loi",src:S.lds},
+ {f:"apo",t:"spx",ty:"fin",amt:"$3.5B + ~$40B",x:"$3.5B for the $5.4B Valor/xAI GPU-leasing vehicle (Jan 2026); ~$40B ($10B loans + $30B IG bonds) being arranged to buy Nvidia chips, closing 2027.",dt:"Jan / Oct 2026",st:"loi",src:S.spx},
+ {f:"bowl",t:"orcl",ty:"fin",amt:"$15B debt + equity",x:"Blue Owl and Crusoe JV financing of the Abilene site leased to Oracle (incl. $9.6B of JPMorgan loans).",dt:"2025",st:"done",src:S.sil},
+ {f:"sftb",t:"intc",ty:"eq",amt:"$2B",x:"Primary share purchase; the US government took a ~10% stake in Intel the same month.",dt:"Aug 2025",st:"done",src:"https://www.datacenterdynamics.com/en/news/softbank-to-invest-2bn-in-intel-as-us-govt-continues-to-mull-plans-to-take-its-own-stake/"},
+ {f:"amd",t:"ant",ty:"eq",amt:"up to $5B",x:"Equity commitment that comes with Anthropic's AMD GPU deal.",dt:"Jul 2026",st:"signed",src:"https://thenextweb.com/news/amd-anthropic-5-billion-investment-2gw-helios-mi450"},
+ {f:"ant",t:"amd",ty:"cp",amt:"up to 2 GW",x:"MI450-series GPUs in Helios racks; the first GW deploys from H1 2027.",dt:"Jul 2026",st:"signed",src:"https://thenextweb.com/news/amd-anthropic-5-billion-investment-2gw-helios-mi450"},
+ {f:"nvda",t:"iren",ty:"eq",amt:"up to $2.1B",x:"Five-year right to buy up to 30M IREN shares at $70; IREN plans up to 5 GW of Nvidia-aligned capacity.",dt:"May 2026",st:"signed",src:"https://www.datacenterdynamics.com/en/news/nvidia-to-invest-up-to-21bn-in-neocloud-iren-funding-deployment-of-up-to-5gw-of-nvidia-dsx-aligned-compute/"},
+ {f:"nvda",t:"crwv",ty:"fin",amt:"$6.3B",x:"Capacity backstop: Nvidia buys any CoreWeave capacity left unsold, through April 2032.",dt:"Sept 2025",st:"signed",src:"https://finance.yahoo.com/news/coreweaves-6-3-billion-backstop-103000258.html"},
+ {f:"nvda",t:"apo",ty:"fin",amt:"$500B platform",x:"Compute-financing platforms with Apollo, BlackRock, Blackstone, Brookfield, Goldman Sachs and KKR; Nvidia guarantees up to 25% of GPU residual value. Still a framework.",dt:"Aug 2026",st:"signed",src:"https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Partners-With-Apollo-BlackRock-Blackstone-Brookfield-Goldman-Sachs-and-KKR-to-Establish-AI-Compute-Infrastructure-Financing-Platforms-to-Mobilize-Over-500-Billion-of-Third-Party-Capital/default.aspx"},
+ {f:"nvda",t:"bx",ty:"fin",amt:"$500B platform",x:"Same platform as Apollo: third-party capital buys GPUs, Nvidia guarantees up to 25% of residual value.",dt:"Aug 2026",st:"signed",src:"https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Partners-With-Apollo-BlackRock-Blackstone-Brookfield-Goldman-Sachs-and-KKR-to-Establish-AI-Compute-Infrastructure-Financing-Platforms-to-Mobilize-Over-500-Billion-of-Third-Party-Capital/default.aspx"},
+ {f:"nvda",t:"crso",ty:"eq",amt:"Stake (undisclosed)",x:"Listed among Nvidia's neocloud investments; amount not public.",dt:"2025–2026",st:"done",src:null},
+ {f:"bowl",t:"meta",ty:"fin",amt:"$27B",x:"Hyperion (Louisiana) JV, 80% Blue Owl / 20% Meta, debt secured on a Meta lease. The largest private-credit deal on record.",dt:"Oct 2025",st:"done",src:"https://finance.yahoo.com/news/meta-27-billion-financing-deal-205329481.html"},
+ {f:"ant",t:"flst",ty:"cp",amt:"$50B",x:"Custom data centres in Texas and New York built by Fluidstack.",dt:"Nov 2025",st:"signed",src:"https://datacenterdynamics.com/en/news/anthropic-plans-50bn-us-data-center-spend-starting-with-fluidstack-sites-in-texas-and-new-york"},
+ {f:"goog",t:"flst",ty:"fin",amt:"~$4.9B",x:"Backstops of Fluidstack's obligations at TeraWulf's Lake Mariner ($3.2B) and Cipher's Barber Lake ($1.73B); Google took equity in both miners.",dt:"2025",st:"signed",src:"https://www.techtimes.com/articles/326746/20260905/fluidstack-closes-15b-revenue-soars-18m-660m-projected-while-owning-zero-chips.htm"},
+ {f:"goog",t:"ant",ty:"fin",amt:"$35B",x:"Google reportedly backstops $35B of Anthropic data-centre leases (Bloomberg).",dt:"Jun 2026",st:"loi",src:"https://sherwood.news/tech/report-google-is-backstopping-anthropics-35-billion-data-center-deal/"},
+ {f:"apo",t:"nscl",ty:"eq",amt:"Part of $3.36B",x:"Apollo funds joined Nscale's pre-IPO convertible notes led by Third Point.",dt:"Sept 2026",st:"signed",src:"https://www.vktr.com/ai-news/nscale-raises-336b-preipo-round-ahead-of-nyse-listing/"}
+];
+const LOOPS=[
+ {n:"Nvidia ⇄ OpenAI ⇄ Oracle",p:"Nvidia → OpenAI $30B → Oracle ~$300B → Nvidia ~$40B (+ $105B guarantee)",ids:[["nvda","oai","eq"],["oai","orcl","cp"],["orcl","nvda","cp"],["nvda","oai","fin"],["oai","nvda","cp"]]},
+ {n:"Broadcom lends to get paid",p:"Broadcom → Anthropic $42B (convertible) → Broadcom $125B TPU lease",ids:[["avgo","ant","fin"],["ant","avgo","cp"],["apo","ant","fin"],["bx","ant","fin"]]},
+ {n:"Hyperscalers ⇄ Anthropic",p:"Amazon, Google, Microsoft invest → Anthropic buys AWS, TPUs, Azure",ids:[["amzn","ant","eq"],["ant","amzn","cp"],["goog","ant","eq"],["ant","goog","cp"],["msft","ant","eq"],["ant","msft","cp"],["nvda","ant","eq"],["goog","ant","fin"]]},
+ {n:"AMD pays in stock",p:"AMD → ~10% warrants → OpenAI and Meta buy 6 GW each; AMD → Anthropic ≤$5B → 2 GW",ids:[["amd","oai","war"],["oai","amd","cp"],["amd","meta","war"],["meta","amd","cp"],["amd","ant","eq"],["ant","amd","cp"]]},
+ {n:"Neoclouds as Nvidia's relay",p:"Nvidia → CoreWeave / Nebius / Nscale / IREN (+ $6.3B CoreWeave backstop) → Meta & Microsoft contracts → Nvidia GPUs",ids:[["nvda","crwv","eq"],["nvda","crwv","fin"],["nvda","iren","eq"],["msft","iren","cp"],["nvda","nbis","eq"],["nvda","nscl","eq"],["meta","crwv","cp"],["meta","nbis","cp"],["msft","nbis","cp"],["msft","nscl","cp"],["crwv","nvda","cp"],["oai","crwv","cp"],["crwv","oai","eq"]]},
+ {n:"Musk: debt for GPUs",p:"Apollo → SpaceX/xAI ~$43.5B → Nvidia; capacity rented to Anthropic and Google",ids:[["apo","spx","fin"],["spx","nvda","cp"],["nvda","spx","eq"],["ant","spx","cp"],["goog","spx","cp"]]}
+];
+const LB={
+ "msft>oai>eq":["~$13B"],"sftb>oai>eq":["$64.6B",1],"amzn>oai>eq":["$50B",1],"nvda>oai>eq":["$30B equity",1],
+ "amzn>ant>eq":["≤$25B",1],"goog>ant>eq":["≤$40B",1],"nvda>ant>eq":["≤$10B"],"msft>ant>eq":["≤$5B"],
+ "nvda>crwv>eq":["$2B",1],"nvda>nbis>eq":["$2B",1],"nvda>spx>eq":["≤$2B"],"nvda>nscl>eq":["$1B"],"nvda>sftb>eq":["$1.5B"],
+ "nvda>intc>eq":["$5B"],"crwv>oai>eq":["$350M"],"oai>sgt>eq":["$18B"],"sftb>sgt>eq":["$18B"],"orcl>sgt>eq":["$7B"],"mgx>sgt>eq":["$7B"],
+ "amd>oai>war":["~10% warrants",1],"amd>meta>war":["~10% warrants",1],
+ "oai>nvda>cp":["5 GW"],"oai>amd>cp":["6 GW",1],"oai>avgo>cp":["10 GW"],"oai>orcl>cp":["~$300B",1],"oai>msft>cp":["$250B",1],
+ "oai>crwv>cp":["$22.4B"],"oai>amzn>cp":["$138B"],"ant>msft>cp":["$31B"],"ant>amzn>cp":["$110B",1],"ant>goog>cp":["$111B",1],
+ "ant>avgo>cp":["$125B TPU lease",1],"ant>spx>cp":["≤$84.5B",1],"goog>spx>cp":["~$30B"],"spx>nvda>cp":["~$40B",1],
+ "orcl>nvda>cp":["~$40B",1],"orcl>crso>cp":["1.2 GW lease"],"meta>amd>cp":["6 GW",1],"meta>crwv>cp":["$35B",1],
+ "meta>nbis>cp":["≤$30B"],"meta>orcl>cp":["~$20B"],"meta>goog>cp":[">$10B"],"msft>nbis>cp":["~$18B"],"msft>nscl>cp":["$23B",1],
+ "msft>iren>cp":["$9.7B"],"crwv>nvda>cp":["GPUs",1],
+ "nvda>oai>fin":["≤$105B guarantee",1],"avgo>ant>fin":["≤$42B convertible",1],"apo>ant>fin":["$35B"],"bx>ant>fin":["$18B"],
+ "apo>spx>fin":["~$43.5B debt",1],"bowl>orcl>fin":["$15B"],"sftb>intc>eq":["$2B"],"amd>ant>eq":["≤$5B"],"ant>amd>cp":["2 GW"],"nvda>iren>eq":["≤$2.1B"],"nvda>crwv>fin":["$6.3B backstop"],"nvda>apo>fin":["$500B platform"],"nvda>bx>fin":["$500B platform"],"nvda>crso>eq":["Stake"],"bowl>meta>fin":["$27B Hyperion"],"ant>flst>cp":["$50B"],"goog>flst>fin":["~$4.9B backstops"],"goog>ant>fin":["$35B backstop"],"apo>nscl>eq":["Pre-IPO notes"]
+};
+const VAL={"msft>oai>eq":13,"sftb>oai>eq":65,"amzn>oai>eq":50,"nvda>oai>eq":30,"amzn>ant>eq":25,"goog>ant>eq":40,"nvda>ant>eq":10,"msft>ant>eq":5,
+"nvda>crwv>eq":2,"nvda>nbis>eq":2,"nvda>spx>eq":2,"nvda>nscl>eq":1,"nvda>sftb>eq":1.5,"nvda>intc>eq":5,"crwv>oai>eq":.35,"oai>sgt>eq":18,"sftb>sgt>eq":18,"orcl>sgt>eq":7,"mgx>sgt>eq":7,
+"oai>orcl>cp":300,"oai>msft>cp":250,"oai>crwv>cp":22.4,"ant>msft>cp":31.4,"ant>amzn>cp":110,"ant>goog>cp":111.1,"ant>avgo>cp":125.2,"ant>spx>cp":84.5,"goog>spx>cp":30,"spx>nvda>cp":40,"orcl>nvda>cp":40,
+"meta>crwv>cp":35,"meta>nbis>cp":30,"meta>orcl>cp":20,"meta>goog>cp":10,"msft>nbis>cp":18.4,"msft>nscl>cp":23,"msft>iren>cp":9.7,
+"nvda>oai>fin":105,"avgo>ant>fin":42,"apo>ant>fin":35,"bx>ant>fin":18,"apo>spx>fin":43.5,"bowl>orcl>fin":15,"sftb>intc>eq":2,"amd>ant>eq":5,"nvda>iren>eq":2.1,"nvda>crwv>fin":6.3,"bowl>meta>fin":27,"ant>flst>cp":50,"goog>flst>fin":4.9,"goog>ant>fin":35,"oai>amzn>cp":138,"oai>avgo>cp":10};
+D.forEach(d=>{d.v=VAL[d.f+">"+d.t+">"+d.ty]||0});
+const money=v=>v>=1000?"$"+(v/1000).toFixed(1)+"T":v>=10?"$"+Math.round(v)+"B":"$"+(+v.toFixed(1))+"B";
+const EX=[
+ "Nvidia invests $30B in OpenAI and guarantees up to $105B of lease payments on OpenAI's Ohio campus. OpenAI commits about $300B to Oracle for cloud capacity, and Oracle spends about $40B on Nvidia chips for the Abilene site. Money that leaves Nvidia comes back as chip orders.",
+ "Broadcom lends Anthropic up to $42B in notes convertible into Anthropic shares, about a third of a $125B lease on Broadcom's own TPU chips. Apollo and Blackstone provide private credit in the same chain. Anthropic's prospectus flags potential conflicts of interest.",
+ "Amazon (up to $25B), Google (up to $40B) and Microsoft (up to $5B) invest in Anthropic, and Nvidia adds up to $10B. Google also reportedly backstops $35B of its data-centre leases. In return Anthropic commits $110B to AWS, $111B to Google Cloud and $31B to Azure.",
+ "AMD grants OpenAI and Meta warrants on up to about 10% of its shares each, unlocked as they deploy AMD GPUs. Both customers in turn commit to 6 GW of AMD chips. AMD also invests up to $5B in Anthropic, which commits to 2 GW of AMD GPUs.",
+ "Nvidia takes stakes in CoreWeave ($2B), Nebius ($2B), Nscale ($1B) and IREN (up to $2.1B), and promises to buy any CoreWeave capacity left unsold ($6.3B). Meta and Microsoft sign multi-year capacity contracts with these neoclouds, which spend the money on Nvidia GPUs.",
+ "Apollo put $3.5B into the $5.4B Valor/xAI GPU-leasing vehicle and is arranging about $40B more of debt. xAI plans a roughly $40B Nvidia chip order, and Anthropic (up to $84.5B) and Google (about $30B) rent capacity on those chips."
+];
+const PR={"nvda": [2, "$56.6B of cash and securities and $21.3B of quarterly free cash flow (Q2 FY27), but operating cash flow halved quarter on quarter and it borrowed $25B while backing customers with equity, guarantees and backstops. CDS at a record ~79bp: cyclical leverage, not a solvency issue.", "https://beancount.io/blog/2026/08/26/nvidia-fy2027-q2-earnings-analysis"], "amd": [1, "Pays partners mostly in its own stock (warrants) and equity cheques, with no large guarantees or loans to customers.", "https://thenextweb.com/news/amd-anthropic-5-billion-investment-2gw-helios-mi450"], "avgo": [3, "5-year CDS at a record 136bp (8-9 Oct 2026). Lends Anthropic up to $42B and anchors a $60B debt package ($42B senior, $18B junior) for its own chips, putting its balance sheet behind its sales.", "https://cryptobriefing.com/ai-financing-debt-rattles-tech-credit/"], "intc": [2, "Raised $20B of equity in Aug 2026 (multiple times covered) after the US government, SoftBank and Nvidia came in. Still ~$50B of debt vs ~$30B cash, and the foundry loses ~$2B a quarter.", "https://www.implicator.ai/intel-prices-20-billion-stock-sale-at-95-below-mondays-close/"], "oai": [4, "~$50B annualised revenue at end-Sept, below earlier Street estimates, against ~$1.4T of compute commitments. Missed internal revenue targets in 2026; in talks for a new round, including with MGX. S&P flags it as Oracle's key credit risk.", "https://www.citybiz.co/?p=916777"], "ant": [3, "Revenue growing fast (Q3 2026 ~$16.8B, +45% q/q) and an IPO targeting ~$2T planned, but $518B of commitments, ~80% non-cancelable, are now partly debt-funded (Broadcom up to $42B, Google $35B lease backstop).", "https://wtvbam.com/2026/10/15/ai-credit-default-swap-spreads-widen-sharply/"], "meta": [2, "Strong balance sheet and record-but-low CDS, but leans on off-balance-sheet SPVs: the El Paso bond priced at 7.534%, ~0.4pt above Hyperion.", "https://capacityglobal.com/news/metas-12bn-el-paso-bond-exposes-ai-debt-repricing/"], "spx": [4, "Seeking ~$40B of new debt for Nvidia chips ($10B loans + $30B bonds, Apollo-led, closing 2027) after a $25B bond in June. Its 2056 bonds trade ~85c, spread ~227bp, in high-yield territory. Much of the capacity is rented on 90-day-cancelable contracts.", "https://mezha.net/eng/?p=3729343"], "msft": [2, "AAA-rated, but leases not yet commenced jumped to $329.1B at 30 June 2026 (from $196.6B a quarter earlier), the most of any hyperscaler, including neocloud capacity.", "https://www.sec.gov/Archives/edgar/data/0000789019/000119312526323660/msft-20260630.htm"], "orcl": [5, "Cut to BBB- by S&P on 9 Jul 2026, one notch above junk. 5-year CDS at a record 288bp (15 Oct). ~$130B of debt (~4.3x EBITDA), ~$260B of unstarted leases and a ~$42B free-cash-flow deficit expected in FY27; about half its $638B backlog is OpenAI.", "https://ppc.land/s-p-cuts-oracle-to-bbb-as-ai-buildout-widens-cash-deficit-to-42bn/"], "amzn": [2, "Smallest unstarted lease book among hyperscalers (~$137B) and well-laddered bonds, but its CDS also hit a record in Oct 2026 and it launched a $25B+ debt programme.", "https://wtvbam.com/2026/10/15/ai-credit-default-swap-spreads-widen-sharply/"], "goog": [2, "First negative quarterly free cash flow (-$5.9B, Q2 2026) on ~$200B of capex; raised ~$85B incl. $49.6B of stock to lift cash to ~$243B. Record CDS; backstops Fluidstack (~$4.9B) and reportedly $35B of Anthropic leases.", "https://arkolith.com/news/news-alphabet-ai-capex-cash-flow"], "crwv": [5, "5-year CDS above 1,000bp (~63% implied 5-year default probability); nearly $50B of debt; 2032 bonds at ~78c, yielding just over 16%. Shares fell ~20% in two sessions this week.", "https://wtvbam.com/2026/10/15/ai-credit-default-swap-spreads-widen-sharply/"], "nbis": [3, "Still accesses capital easily: $5.75B of convertibles in Aug 2026 at 0.5% (2030) and 4.5% (2034) coupons, upsized. Shares up ~120% YTD but volatile (>20% off the 2026 high); no traded CDS.", "https://nebius.com/newsroom/nebius-group-announces-closing-of-private-offering-of-convertible-senior-notes-with-aggregate-gross-proceeds-of-approximately-5-75-billion"], "nscl": [4, "Pre-IPO and funded by $3.36B of convertible notes; the listing window is being tested after Firmus pulled its $5B ASX IPO on 9 Oct for lack of demand.", "https://www.heygotrade.com/en/news/nvidia-backed-firmus-scraps-5b-australian-ipo/"], "iren": [4, "$2.4B GPU financing for non-investment-grade customers at a 9% fixed rate (vs ~6% for its Microsoft-backed facility); $25-30B FY27 capex plan with a $3-8B funding gap. Shares ~45% below their 2026 high.", "https://blockspace.media/insight/b-riley-iren-buy-target-fy26-results/"], "crso": [3, "Raised $3B at a $30B valuation (Sept 2026) and diversified beyond Oracle (Microsoft Abilene, $13B Jane Street contract), but its flagship Stargate site still depends on Oracle's weakening credit.", "https://explorer.hub71.com/news/note/crusoe-raises-3b-series-f-at-30b-valuation-to-build-ai-data-centres"], "flst": [4, "Owns no chips; raised $1.5B at $18B (Sept 2026) but growth rests on Anthropic's $50B programme, Google backstops and GPU-backed debt.", "https://www.techtimes.com/articles/326746/20260905/fluidstack-closes-15b-revenue-soars-18m-660m-projected-while-owning-zero-chips.htm"], "sftb": [5, "5-year CDS at 424bp (15 Oct), up from ~280bp in June. Moody's Ba2; S&P outlook negative. Funded its $64.6B OpenAI stake (~13%) with a $40B bridge, $11.1B of junk bonds at 8.75-9.875% guidance, and a margin loan on OpenAI shares cut to ~$6B.", "https://thenextweb.com/news/softbank-60-billion-bond"], "sgt": [4, "Depends on OpenAI and SoftBank cash; Blue Owl walked away from the $10B Michigan site in Dec 2025 as lenders tightened terms.", "https://www.df.cl/internacional/ft/el-centro-de-datos-de-oracle-en-michigan-de-us-10-mil-millones-en-el"], "mgx": [1, "Abu Dhabi sovereign-backed investor; does not rely on market funding.", null], "apo": [3, "Large permanent capital, but its Apollo Debt Solutions fund gated redemptions (requests at 16.8%), and it leads the SpaceX ~$40B chip debt and sits in Nvidia's $500B platform.", "https://www.webull.ca/news-detail/15159136153994240"], "bx": [2, "Leads the $18B junior tranche of Broadcom's Anthropic package ($9B of its own capital), the riskiest layer of that deal; retail private-credit redemptions elevated across peers.", "https://aiweekly.co/alerts/broadcom-and-blackstone-amass-60b-debt-to-fund-anthropic-chips"], "bowl": [4, "Capped redemptions at 5% after requests of ~22% and ~41% of two flagship credit funds (Q1 2026); shares down ~46% YTD. Still lending into AI (Meta Hyperion, IREN at 9%).", "https://letsdatascience.com/news/blue-owl-faces-massive-fund-redemption-pressure-1866bd0e"]};
+const PL=["","Low","Contained","Moderate","Elevated","High"],PC=["","#3BAF90","#9DD7C8","#FFD374","#FFA400","#FF6C0E"];
+let cmode="cat";
+const TY={eq:"Equity",cp:"Compute & chips",fin:"Debt & guarantees",war:"Warrants"};
+const ST={done:"Completed",signed:"Signed",loi:"LOI / press / talks"};
+const C=520,RR=[0,150,240,320,400,470],NS="http://www.w3.org/2000/svg";
+for(const k in N){const o=N[k],a=o.a*Math.PI/180;o.s=Math.round(o.s*1.12);o.hx=C+RR[o.r]*Math.cos(a);o.hy=C+RR[o.r]*Math.sin(a);o.x=o.hx;o.y=o.hy;o.sc=1}
+const svg=document.getElementById("map");
+const el=(t,at,p)=>{const e=document.createElementNS(NS,t);for(const k in at)e.setAttribute(k,at[k]);(p||svg).appendChild(e);return e};
+const ringNames=["","Chips","Labs","Hyperscalers","Neoclouds","Financiers & funding vehicles"];
+const RANG=[0,135,111,111,111,111];
+const R=[null];
+[1,2,3,4,5].forEach(i=>{const st=`--rc:var(--n${i});--rd:color-mix(in srgb,var(--n${i}) 70%,#202945)`;
+  const h=el("circle",{cx:C,cy:C,class:"rhalo",style:st});
+  const c=el("circle",{cx:C,cy:C,class:"rline",style:st});
+  const hit=el("circle",{cx:C,cy:C,class:"rhit","data-ring":i});
+  const t=el("text",{"text-anchor":"middle",class:"ringlbl rlbl",style:st,"data-ring":i,role:"button",tabindex:"0","aria-label":"Highlight ring: "+ringNames[i]});t.textContent=ringNames[i];
+  R[i]={c,h,hit,t,r:RR[i],op:1,lop:1,ang:RANG[i]}});
+const cap=el("text",{x:-10,y:30,class:"ringlbl"}),cap2=el("text",{x:-10,y:54,class:"ringlbl"});let capOp=0;
+const defs=el("defs",{});
+["eq","cp","fin","war"].forEach(t=>{const m=el("marker",{id:"ar-"+t,viewBox:"0 0 10 10",refX:"9",refY:"5",markerUnits:"userSpaceOnUse",markerWidth:"13",markerHeight:"13",orient:"auto-start-reverse"},defs);
+  el("path",{d:"M0,0 L10,5 L0,10 z",fill:`var(--${t})`},m)});
+const gE=el("g",{}),gH=el("g",{}),gL=el("g",{}),gN=el("g",{});let cur=null;
+const pairIdx={};
+D.forEach((d,i)=>{d.id=i;const key=[d.f,d.t].sort().join("|");pairIdx[key]=(pairIdx[key]||0);d.k=pairIdx[key]++;});
+D.forEach(d=>{
+  d.el=el("path",{class:"edge"+(d.st==="loi"?" dash":""),style:`--w:${(1.6+2.4*Math.sqrt(d.v/300)).toFixed(2)}px`,stroke:`var(--${d.ty})`,"marker-end":`url(#ar-${d.ty})`},gE);
+  const tt=el("title",{},d.el);tt.textContent=`${N[d.f].n} → ${N[d.t].n} · ${TY[d.ty]} · ${d.amt}`;
+  const LBL=LB[d.f+">"+d.t+">"+d.ty];d.main=!!(LBL&&LBL[1]);
+  if(LBL){d.lel=el("text",{class:"elbl",style:`fill:color-mix(in srgb,var(--${d.ty}) 72%,#202945)`},gL);d.lel.textContent=LBL[0]}
+  d.hit=el("path",{class:"hit"},gH);
+  const show=()=>{hideL();cur=d;d.el.classList.add("hov");if(d.lel)d.lel.classList.add("show")};
+  d.hit.addEventListener("pointerenter",show);d.hit.addEventListener("pointerdown",show);
+  d.hit.addEventListener("pointerleave",e=>{if(e.pointerType==="mouse")hideL()});
+  d.hit._show=show;});
+function hideL(){if(cur){cur.el.classList.remove("hov");if(cur.lel)cur.lel.classList.remove("show");cur=null}}
+svg.addEventListener("pointerdown",e=>{if(!e.target.classList.contains("hit"))hideL();if(!(e.target.dataset&&e.target.dataset.ring)&&typeof ringOff==="function")ringOff()});
+svg.addEventListener("touchmove",e=>{const t=e.touches[0],x=document.elementFromPoint(t.clientX,t.clientY);if(x&&x.classList&&x.classList.contains("hit"))x._show()},{passive:true});
+for(const k in N){const o=N[k];const g=el("g",{class:"node",tabindex:"0",role:"button","aria-label":o.n},gN);o.g=g;
+  o.c=el("circle",{cx:0,cy:0,r:o.s,fill:"var(--n"+o.r+")"},g);o.c.style.fill="var(--n"+o.r+")";
+  o.t=el("text",{x:0,y:0,"text-anchor":"middle"},g);o.t.textContent=o.n;
+  g.addEventListener("click",()=>selectNode(k));g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectNode(k)}});}
+const gRL=el("g",{});R.forEach(r=>{if(r)gRL.appendChild(r.t)});
+let hr=null;
+function clearRing(){if(hr==null)return;const r=R[hr];[r.c,r.h,r.t].forEach(e=>e.classList.remove("on"));hr=null}
+function ringOff(){if(hr==null)return;clearRing();paint()}
+function ringOn(i){if(sel||loopSel!==null||tour)return;if(hr===i)return;clearRing();hideL();hr=i;const r=R[i];[r.c,r.h,r.t].forEach(e=>e.classList.add("on"));
+  const inR=new Set(Object.keys(N).filter(k=>N[k].r===i));
+  D.forEach(d=>{d.el.classList.remove("on");d.el.classList.toggle("dim",!(inR.has(d.f)||inR.has(d.t)))});
+  for(const k in N)N[k].g.classList.toggle("dim",!inR.has(k))}
+[1,2,3,4,5].forEach(i=>{[R[i].hit,R[i].t].forEach(e=>{
+  e.addEventListener("pointerenter",ev=>{if(ev.pointerType==="mouse")ringOn(i)});
+  e.addEventListener("pointerleave",ev=>{if(ev.pointerType==="mouse")ringOff()});
+  e.addEventListener("pointerdown",ev=>{if(ev.pointerType!=="mouse"){if(hr===i)ringOff();else ringOn(i)}})});
+  R[i].t.addEventListener("focus",()=>ringOn(i));R[i].t.addEventListener("blur",ringOff)});
+// Put each ring title in the widest gap on its ring, sized for its enlarged hover state, so it never sits on a disc or a company name.
+function placeRingLabels(){const boxes=[];
+  for(const k in N){const o=N[k];const w=(o.t.getComputedTextLength()||o.n.length*8)+10;const below=o.hy>=C-4;
+    boxes.push({x0:o.hx-w/2,x1:o.hx+w/2,y0:below?o.hy+o.s+2:o.hy-o.s-21,y1:below?o.hy+o.s+20:o.hy-o.s-3});
+    boxes.push({cx:o.hx,cy:o.hy,rad:o.s+7})}
+  for(let i=1;i<=5;i++){const r=R[i];r.t.style.transition="none";r.t.style.fontSize="24px";const w=r.t.getComputedTextLength()+14;r.t.style.fontSize="";void r.t.getBBox();r.t.style.transition="";
+    let best=null,bestC=-1e9;
+    for(let a=0;a<360;a+=2){const ar=a*Math.PI/180,cx=C+RR[i]*Math.cos(ar),cy=C+RR[i]*Math.sin(ar);const L={x0:cx-w/2,x1:cx+w/2,y0:cy-17,y1:cy+11};
+      if(L.x0<-28||L.x1>1068||L.y0<4||L.y1>1036)continue;let cl=1e9;
+      for(const b of boxes){let d;if(b.rad!=null){const dx=Math.max(L.x0-b.cx,0,b.cx-L.x1),dy=Math.max(L.y0-b.cy,0,b.cy-L.y1);d=Math.hypot(dx,dy)-b.rad}
+        else{const dx=Math.max(L.x0-b.x1,0,b.x0-L.x1),dy=Math.max(L.y0-b.y1,0,b.y0-L.y1);d=(dx||dy)?Math.hypot(dx,dy):-Math.min(L.x1-b.x0,b.x1-L.x0,L.y1-b.y0,b.y1-L.y0)}
+        if(d<cl)cl=d}
+      const dAng=Math.min(Math.abs(a-((RANG[i]%360)+360)%360),360-Math.abs(a-((RANG[i]%360)+360)%360));
+      const score=Math.min(cl,24)*4-dAng*0.15;if(score>bestC){bestC=score;best={a,L}}}
+    if(best){r.ang=best.a;boxes.push({x0:best.L.x0,x1:best.L.x1,y0:best.L.y0,y1:best.L.y1})}}}
+function placeEdge(d){const a=N[d.f],b=N[d.t];const ra=a.s*a.sc,rb=b.s*b.sc;const dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy)||1;
+  const ux=dx/L,uy=dy/L;const sx=a.x+ux*(ra+2),sy=a.y+uy*(ra+2),ex=b.x-ux*(rb+4),ey=b.y-uy*(rb+4);
+  const dir=d.f<d.t?1:-1;const off=(18+d.k*22)*dir;const mx=(sx+ex)/2-uy*off,my=(sy+ey)/2+ux*off;
+  const p=`M${sx.toFixed(1)},${sy.toFixed(1)} Q${mx.toFixed(1)},${my.toFixed(1)} ${ex.toFixed(1)},${ey.toFixed(1)}`;
+  d.el.setAttribute("d",p);d.hit.setAttribute("d",p);
+  if(d.lel){d.lel.setAttribute("x",(.25*sx+.5*mx+.25*ex).toFixed(1));d.lel.setAttribute("y",(.25*sy+.5*my+.25*ey+4).toFixed(1))}}
+function place(){
+  for(const k in N){const o=N[k];o.g.setAttribute("transform",`translate(${o.x.toFixed(1)},${o.y.toFixed(1)})`);const rs=o.s*o.sc;o.c.setAttribute("r",rs.toFixed(1));
+    const below=o.y>=C-4||o.sc>1;o.t.setAttribute("y",(below?rs+15:-rs-7).toFixed(1))}
+  D.forEach(placeEdge);
+  R.forEach(r=>{if(!r)return;r.c.setAttribute("r",r.r.toFixed(1));r.h.setAttribute("r",r.r.toFixed(1));r.hit.setAttribute("r",r.r.toFixed(1));r.hit.style.display=r.lop>.5?"":"none";r.t.style.pointerEvents=r.lop>.5?"":"none";r.c.style.opacity=r.op;const a=r.ang*Math.PI/180;
+    r.t.setAttribute("x",(C+r.r*Math.cos(a)).toFixed(1));r.t.setAttribute("y",(C+r.r*Math.sin(a)+4).toFixed(1));r.t.style.opacity=r.op*r.lop});
+  cap.style.opacity=capOp;cap2.style.opacity=capOp}
+// Layout: with nothing selected, the four rings. With a company selected, it moves to the centre,
+// its direct counterparties form the inner ring and everyone else the outer ring.
+// Layout: by default, five category rings. With a company selected, it moves to the centre,
+// its direct counterparties form the inner ring and everyone else the outer ring (disc colours keep the categories).
+function target(k){
+  const T={pos:{},sc:{},R:[null],cap:0};
+  if(!k){for(const n in N){T.pos[n]=[N[n].hx,N[n].hy];T.sc[n]=1}
+    for(let i=1;i<=5;i++)T.R[i]={r:RR[i],op:1,lop:1};return T}
+  const nb=new Set();D.forEach(d=>{if(d.f===k)nb.add(d.t);if(d.t===k)nb.add(d.f)});
+  const home=n=>Math.atan2(N[n].hy-C,N[n].hx-C);
+  const A=[...nb].sort((x,y)=>home(x)-home(y)),B=Object.keys(N).filter(n=>n!==k&&!nb.has(n)).sort((x,y)=>home(x)-home(y));
+  const big=A.length>7,r1=big?300:230,r2=big?450:420;
+  const put=(arr,r,off)=>arr.forEach((n,i)=>{const a=(-180+off+i*360/arr.length)*Math.PI/180;T.pos[n]=[C+r*Math.cos(a),C+r*Math.sin(a)];T.sc[n]=1});
+  put(A,r1,0);put(B,r2,B.length?180/B.length:0);
+  T.pos[k]=[C,C];T.sc[k]=1.35;
+  T.R[1]={r:r1,op:1,lop:0};T.R[2]={r:r1,op:0,lop:0};T.R[3]={r:r2,op:1,lop:0};T.R[4]={r:r2,op:0,lop:0};T.R[5]={r:r2,op:0,lop:0};
+  T.cap=1;return T}
+let anTok=0,laid=null;
+function animateTo(k){
+  const T=target(k),tok=++anTok;
+  if(k){cap.textContent="Inner ring: direct deals with "+N[k].n;cap2.textContent="Outer ring: no direct deal"}
+  const S={pos:{},sc:{},R:[null],cap:capOp};
+  for(const n in N){S.pos[n]=[N[n].x,N[n].y];S.sc[n]=N[n].sc}
+  for(let i=1;i<=5;i++)S.R[i]={r:R[i].r,op:R[i].op,lop:R[i].lop};
+  const dur=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches?0:650,t0=performance.now();
+  const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  const mix=(a,b,e)=>a+(b-a)*e;
+  function step(now){if(tok!==anTok)return;const u=dur?Math.min(1,(now-t0)/dur):1,e=ease(u);
+    for(const n in N){const o=N[n];o.x=mix(S.pos[n][0],T.pos[n][0],e);o.y=mix(S.pos[n][1],T.pos[n][1],e);o.sc=mix(S.sc[n],T.sc[n],e)}
+    for(let i=1;i<=5;i++){const r=R[i];r.r=mix(S.R[i].r,T.R[i].r,e);r.op=mix(S.R[i].op,T.R[i].op,e);r.lop=mix(S.R[i].lop,T.R[i].lop,e)}
+    capOp=mix(S.cap,T.cap,e);place();if(u<1)requestAnimationFrame(step)}
+  requestAnimationFrame(step)}
+placeRingLabels();place();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{placeRingLabels();place()});
+const on={eq:true,cp:true,fin:true,war:true};let sel=null,loopSel=null;
+function vis(d){return on[d.ty]}
+function paint(){hideL();const hiSet=new Set();
+  if(sel)D.forEach(d=>{if(vis(d)&&(d.f===sel||d.t===sel))hiSet.add(d.id)});
+  if(loopSel!==null)LOOPS[loopSel].ids.forEach(([f,t,ty])=>D.forEach(d=>{if(d.f===f&&d.t===t&&d.ty===ty&&vis(d))hiSet.add(d.id)}));
+  const focus=sel||loopSel!==null;const nodesOn=new Set();
+  D.forEach(d=>{d.el.style.display=vis(d)?"":"none";d.el.classList.toggle("on",hiSet.has(d.id));d.el.classList.toggle("dim",focus&&!hiSet.has(d.id));
+    d.hit.style.display=(vis(d)&&(!focus||hiSet.has(d.id)))?"":"none";
+    if(hiSet.has(d.id)){nodesOn.add(d.f);nodesOn.add(d.t)}});
+  for(const k in N){N[k].g.classList.toggle("dim",focus&&!nodesOn.has(k));N[k].g.classList.toggle("sel",k===sel)}}
+const panel=document.getElementById("panel");
+function setMode(m){cmode=m;for(const k in N){N[k].c.style.fill=m==="p"?PC[PR[k][0]]:"var(--n"+N[k].r+")"}document.querySelectorAll(".mode button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===m));document.getElementById("leg-cat").hidden=m==="p";document.getElementById("leg-p").hidden=m!=="p"}
+function dealHTML(d,me){const out=d.f===me;const other=N[out?d.t:d.f].n;
+  const verb={eq:out?"invests in":"funded by",cp:out?"buys from":"sells to",fin:out?"lends to / guarantees":"financed by",war:out?"grants warrants to":"receives warrants from"}[d.ty];
+  return `<div class="deal"><span class="dot" style="background:var(--${d.ty})"></span><div><div class="hd"><span class="who">${verb[0].toUpperCase()+verb.slice(1)} ${other}</span><span class="amt">${d.amt}</span><span class="pill ${d.st==="loi"?"loi":""}">${ST[d.st]}</span></div><div class="meta">${TY[d.ty]} · ${d.dt}</div><p>${d.x}</p></div></div>`}
+let tour=false;
+function selectNode(k){tour=false;sel=sel===k?null:k;loopSel=null;render()}
+function resetAll(){sel=null;loopSel=null;tour=false;for(const t in on)on[t]=true;document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed","true"));render()}
+function render(){clearRing();
+  if(laid!==sel){laid=sel;animateTo(sel)}
+  if(sel){const o=N[sel];const ds=D.filter(d=>(d.f===sel||d.t===sel)&&vis(d));
+    const out=ds.filter(d=>d.f===sel).length,inn=ds.length-out;
+    const mIn=ds.filter(d=>d.t===sel).reduce((a,d)=>a+d.v,0),mOut=ds.filter(d=>d.f===sel).reduce((a,d)=>a+d.v,0);
+    panel.innerHTML=`<button class="back" id="back">← All loops</button><h2>${o.n}</h2><p class="sub">${o.d||""}</p><div class="press"><span class="pchip" style="--pc:${PC[PR[sel][0]]}">Funding stress: ${PL[PR[sel][0]]}</span><p>${PR[sel][1]}</p></div><div class="tot"><div class="in"><b>${money(mIn)}</b><span>Money in</span></div><div class="outm"><b>${money(mOut)}</b><span>Money out</span></div></div><p class="sub">Sum of the listed deals that state a dollar amount. Caps and commitments count in full; GW-only and share-based deals are left out. ${ds.length} flows shown · ${out} outgoing · ${inn} incoming.</p>`+ds.map(d=>dealHTML(d,sel)).join("");
+    document.getElementById("back").onclick=()=>{sel=null;render()};
+  } else if(tour){const l=LOOPS[loopSel];
+    panel.innerHTML=`<button class="back" id="exit">Exit tour</button><p class="sub">Loop ${loopSel+1} of ${LOOPS.length}</p><h2>${l.n}</h2><p class="pathline">${l.p}</p><p class="story">${EX[loopSel]}</p><div class="nav"><button class="btn" id="prev" ${loopSel===0?"disabled":""}>← Previous</button><button class="btn pri" id="next">${loopSel===LOOPS.length-1?"Finish":"Next →"}</button></div>`;
+    document.getElementById("exit").onclick=resetAll;
+    document.getElementById("prev").onclick=()=>{loopSel--;render()};
+    document.getElementById("next").onclick=()=>{if(loopSel===LOOPS.length-1)resetAll();else{loopSel++;render()}};
+  } else {
+    panel.innerHTML=`<h2>Six loops to watch</h2><p class="sub">Tap a loop to trace it on the map, or tap any company disc to bring it to the centre. Hover or touch an arrow to see its amount.</p><button class="btn pri" id="tour">Start the guided tour</button>`+LOOPS.map((l,i)=>`<button class="loop t${i%6}${loopSel===i?" on":""}" data-i="${i}"><strong>${l.n}</strong><span class="path">${l.p}</span></button>`).join("")+
+    `<p class="takeaway"><b>Takeaway.</b> The loop matters less than where it ends. Almost everything rests on OpenAI and Anthropic turning ~$100B of combined annualised revenue into payments worth several hundred billion.</p>`;
+    document.getElementById("tour").onclick=()=>{tour=true;loopSel=0;render()};
+    panel.querySelectorAll(".loop").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;loopSel=loopSel===i?null:i;render()});
+  }
+  paint()}
+document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{const t=b.dataset.t;on[t]=!on[t];b.setAttribute("aria-pressed",on[t]);render()});
+document.getElementById("reset").onclick=resetAll;
+document.querySelectorAll(".mode button").forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+document.addEventListener("keydown",e=>{if(e.key==="Escape")resetAll()});
+render();
+</script>
+
+<script>
+/* When embedded in an iframe (e.g. the HubSpot blog), report the page height so the host can size the iframe */
+(function(){if(window.parent===window)return;let last=0;
+function send(){const h=Math.ceil(document.body.offsetHeight);if(h!==last){last=h;parent.postMessage({aiRingsHeight:h},"*")}}
+addEventListener("load",send);addEventListener("resize",send);
+if(window.ResizeObserver)new ResizeObserver(send).observe(document.body);send()})();
+</script>
+
+</body></html>
